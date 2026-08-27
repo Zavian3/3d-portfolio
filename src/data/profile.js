@@ -32,25 +32,20 @@ export const profile = {
       school: 'Lahore University of Management Sciences',
       short: 'LUMS',
       program: 'MS Artificial Intelligence',
+      years: '2026 — 2028',
+      current: true,
+      location: 'Lahore, Pakistan',
     },
     {
       school: 'National University of Computer and Emerging Sciences',
       short: 'FAST-NUCES',
       program: 'BS Data Science',
       years: '2020 — 2024',
+      current: false,
+      location: 'Lahore, Pakistan',
     },
   ],
   experience: [
-    {
-      role: 'Artificial Intelligence Engineer',
-      company: 'Novion Systems',
-      period: 'Jan 2026 — Present',
-      place: 'Adelaide, SA · Remote',
-      points: [
-        'Backend services and automation systems in Python and Django for operational efficiency.',
-        'Workflow pipelines with n8n and Make.com, REST APIs, and React dashboards for automation control rooms.',
-      ],
-    },
     {
       role: 'Building',
       company: 'NetronFlow',
