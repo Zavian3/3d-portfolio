@@ -330,7 +330,7 @@ img {
 .portrait img {
   width: 100%;
   border-radius: 24px;
-  filter: grayscale(0.2) contrast(1.05);
+  filter: grayscale(0.15) contrast(1.08);
   border: 1px solid var(--line);
 }
 
@@ -342,6 +342,26 @@ img {
   border: 1px solid var(--cyan);
   opacity: 0.45;
   z-index: -1;
+}
+
+.portrait-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
+  animation: pulse 2s ease-in-out infinite;
 }
 
 .about h2,
@@ -375,13 +395,6 @@ img {
   line-height: 1.55;
 }
 
-.edu {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 28px;
-}
-
 .chip {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -390,6 +403,109 @@ img {
   border-radius: 999px;
   border: 1px solid var(--line);
   color: var(--muted);
+}
+
+/* ── Education section ───────────────────────────── */
+.education h2 {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 64px);
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  margin-bottom: 44px;
+}
+
+.edu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  max-width: 900px;
+}
+
+.edu-card {
+  position: relative;
+  padding: 36px;
+  border-radius: 28px;
+  border: 1px solid var(--line);
+  background: var(--glass);
+  backdrop-filter: blur(18px);
+  overflow: hidden;
+  cursor: default;
+  will-change: transform;
+  transition: border-color 0.3s ease;
+}
+
+.edu-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(92,225,230,0.1), transparent 70%);
+  transform: translate(50%, -50%);
+  pointer-events: none;
+}
+
+.edu-card.edu-current {
+  border-color: rgba(192, 132, 252, 0.35);
+}
+
+.edu-card.edu-current::before {
+  background: radial-gradient(circle, rgba(192,132,252,0.12), transparent 70%);
+}
+
+.edu-card:hover {
+  border-color: rgba(92, 225, 230, 0.4);
+}
+
+.edu-card.edu-current:hover {
+  border-color: rgba(192, 132, 252, 0.55);
+}
+
+.edu-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--violet);
+  border: 1px solid rgba(192, 132, 252, 0.45);
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 20px;
+}
+
+.edu-years {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--cyan);
+  margin-bottom: 12px;
+}
+
+.edu-card.edu-current .edu-years {
+  color: var(--violet);
+}
+
+.edu-program {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 30px);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+
+.edu-school {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.45;
+  margin-bottom: 6px;
+}
+
+.edu-short {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--faint);
+  letter-spacing: 0.06em;
 }
 
 .timeline {
@@ -529,6 +645,108 @@ img {
   margin-bottom: 12px;
 }
 
+/* ── Agent Flow visualization ────────────────────── */
+.live-system h2 {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 64px);
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  margin-bottom: 22px;
+}
+
+.agentflow-panel {
+  max-width: 1100px;
+  padding: 32px;
+}
+
+.agentflow {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 28px;
+  align-items: start;
+}
+
+.agentflow-diagram {
+  width: 100%;
+}
+
+.agentflow-diagram svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.agentflow-log {
+  background: rgba(5, 5, 10, 0.7);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px;
+  min-height: 260px;
+}
+
+.log-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.log-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+  animation: pulse 1.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.log-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.log-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  line-height: 1.45;
+  color: var(--faint);
+  transition: color 0.4s ease;
+}
+
+.log-entry.log-new {
+  color: var(--muted);
+  animation: logFadeIn 0.5s ease forwards;
+}
+
+.log-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.log-text {
+  line-height: 1.45;
+}
+
+@keyframes logFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .certs {
   display: flex;
   flex-wrap: wrap;
@@ -635,8 +853,13 @@ img {
   .job,
   .project-grid,
   .skill-grid,
-  .stats {
+  .stats,
+  .edu-grid,
+  .agentflow {
     grid-template-columns: 1fr;
+  }
+  .agentflow-log {
+    min-height: auto;
   }
   .section {
     padding: 100px 6vw 72px;
@@ -646,6 +869,7 @@ img {
   .panel { padding: 22px; }
   .cursor { display: none; }
   body { cursor: auto; }
+  .edu-card { padding: 26px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
