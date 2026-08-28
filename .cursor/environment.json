@@ -1,0 +1,17 @@
+{
+  "name": "Rafay 3D Portfolio",
+  "install": "npm ci",
+  "terminals": [
+    {
+      "name": "vite-dev",
+      "command": "npm run dev",
+      "description": "Vite dev server for the React/Three.js portfolio, served on port 5173."
+    }
+  ],
+  "ports": [
+    {
+      "name": "Vite dev server",
+      "port": 5173
+    }
+  ]
+}
