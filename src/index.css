@@ -883,36 +883,57 @@ img {
   .brand-mark { animation: none; }
 }
 
-/* ── Speech bubble ───────────────────────────────────────────────── */
+/* ── Speech bubble (sits above the robot's head, tail points down) ── */
 .speech-bubble {
   position: fixed;
   z-index: 90;
-  max-width: 240px;
-  padding: 12px 16px;
-  border-radius: 18px 18px 18px 4px;
+  padding: 10px 14px 12px;
+  border-radius: 14px;
   background: #ffefd3;
   color: #001b2e;
   font-family: var(--font-body);
   font-size: 13px;
-  line-height: 1.45;
+  line-height: 1.5;
   font-weight: 500;
-  box-shadow: 0 8px 28px rgba(0, 27, 46, 0.35), 0 0 0 1px rgba(255, 196, 155, 0.4);
+  box-shadow: 0 6px 22px rgba(0, 27, 46, 0.28), 0 0 0 1px rgba(255, 196, 155, 0.35);
   pointer-events: none;
   opacity: 0;
-  transform: scale(0.88) translateY(6px);
-  transform-origin: bottom left;
-  transition: opacity 0.22s ease, transform 0.22s ease;
-  will-change: transform, opacity;
+  transform: translateY(6px) scale(0.92);
+  transform-origin: bottom center;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  will-change: opacity, transform;
+  min-height: 36px;
 }
 
-.speech-bubble.bubble-left {
-  border-radius: 18px 18px 4px 18px;
-  transform-origin: bottom right;
+/* Downward-pointing tail toward the robot's head */
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #ffefd3;
 }
 
 .speech-bubble.bubble-show {
   opacity: 1;
-  transform: scale(1) translateY(0);
+  transform: translateY(0) scale(1);
+}
+
+/* Blinking cursor at end of typed text */
+.bubble-cursor {
+  display: inline-block;
+  opacity: 1;
+  animation: blink 0.7s step-end infinite;
+  margin-left: 1px;
+  color: #ffc49b;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
 }
 
 @media (max-width: 900px) {

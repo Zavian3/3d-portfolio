@@ -37,23 +37,37 @@ export default function App() {
     return () => cancelAnimationFrame(frame)
   }, [])
 
-  /* Global data-speech hover → robotsay event */
+  /* Global data-speech hover → robotsay / robothide events */
   useEffect(() => {
-    let last = ''
-    const handler = (e) => {
-      const el = e.target.closest('[data-speech]')
-      const txt = el?.dataset?.speech
-      if (txt && txt !== last) {
-        last = txt
+    let current = ''
+
+    const onOver = (e) => {
+      const el  = e.target.closest('[data-speech]')
+      const txt = el?.dataset?.speech ?? ''
+      if (txt && txt !== current) {
+        current = txt
         window.dispatchEvent(new CustomEvent('robotsay', { detail: txt }))
+      } else if (!txt && current) {
+        current = ''
+        window.dispatchEvent(new CustomEvent('robothide'))
       }
     }
-    const reset = () => { last = '' }
-    document.addEventListener('mouseover', handler)
-    document.addEventListener('mouseout',  reset)
+
+    /* Also hide when leaving a tagged element entirely */
+    const onOut = (e) => {
+      const from = e.target.closest('[data-speech]')
+      const to   = e.relatedTarget?.closest?.('[data-speech]')
+      if (from && !to) {
+        current = ''
+        window.dispatchEvent(new CustomEvent('robothide'))
+      }
+    }
+
+    document.addEventListener('mouseover', onOver)
+    document.addEventListener('mouseout',  onOut)
     return () => {
-      document.removeEventListener('mouseover', handler)
-      document.removeEventListener('mouseout',  reset)
+      document.removeEventListener('mouseover', onOver)
+      document.removeEventListener('mouseout',  onOut)
     }
   }, [])
 
