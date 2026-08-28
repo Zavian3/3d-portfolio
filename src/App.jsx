@@ -4,6 +4,7 @@ import Nav from './components/Nav.jsx'
 import Cursor from './components/Cursor.jsx'
 import Loader from './components/Loader.jsx'
 import SpeechBubble from './components/SpeechBubble.jsx'
+import { panelRects, speechState } from './robotState.js'
 
 const Scene = lazy(() => import('./components/Scene.jsx'))
 
@@ -37,6 +38,27 @@ export default function App() {
     return () => cancelAnimationFrame(frame)
   }, [])
 
+  /* Keep panelRects fresh so the robot avoids frosted panels */
+  useEffect(() => {
+    const update = () => {
+      panelRects.length = 0
+      document.querySelectorAll('.panel, .edu-card, .card').forEach((el) => {
+        const r = el.getBoundingClientRect()
+        if (r.width > 10 && r.height > 10)
+          panelRects.push({ left: r.left, right: r.right, top: r.top, bottom: r.bottom })
+      })
+    }
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    const id = setInterval(update, 300)   /* catch animation completions */
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+      clearInterval(id)
+    }
+  }, [])
+
   /* Global data-speech hover → robotsay / robothide events */
   useEffect(() => {
     let current = ''
@@ -46,19 +68,21 @@ export default function App() {
       const txt = el?.dataset?.speech ?? ''
       if (txt && txt !== current) {
         current = txt
+        speechState.active = true
         window.dispatchEvent(new CustomEvent('robotsay', { detail: txt }))
       } else if (!txt && current) {
         current = ''
+        speechState.active = false
         window.dispatchEvent(new CustomEvent('robothide'))
       }
     }
 
-    /* Also hide when leaving a tagged element entirely */
     const onOut = (e) => {
       const from = e.target.closest('[data-speech]')
       const to   = e.relatedTarget?.closest?.('[data-speech]')
       if (from && !to) {
         current = ''
+        speechState.active = false
         window.dispatchEvent(new CustomEvent('robothide'))
       }
     }

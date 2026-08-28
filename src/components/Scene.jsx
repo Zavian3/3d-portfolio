@@ -2,7 +2,29 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { robotState } from '../robotState.js'
+import { robotState, panelRects, speechState } from '../robotState.js'
+
+/* ─── Panel avoidance helpers ───────────────────────────────────── */
+// World-space half-width at z=0 with camera at z=5, fov=45, 16:9
+const WORLD_HALF_W = 5 * Math.tan((45 / 2) * (Math.PI / 180)) * (16 / 9)
+
+function screenXtoWorld(px) {
+  return (px / window.innerWidth * 2 - 1) * WORLD_HALF_W
+}
+
+/* Returns the minimum world-X the robot may occupy without entering any
+   visible frosted panel. If no panel is blocking, returns -Infinity. */
+function safeMinWorldX() {
+  let minX = -Infinity
+  const W = window.innerWidth
+  const H = window.innerHeight
+  for (const r of panelRects) {
+    if (r.bottom < 0 || r.top > H) continue          // off-screen
+    const worldRight = screenXtoWorld(r.right)
+    if (worldRight > minX) minX = worldRight
+  }
+  return minX === -Infinity ? -Infinity : minX + 0.28 /* margin */
+}
 
 /* ─── Materials ─────────────────────────────────────────────────── */
 // White body — no emissive so bloom doesn't blow it out
@@ -24,7 +46,7 @@ function CuteRobot({ progress, mouse }) {
   const eyeR      = useRef()
   const thrGlow   = useRef()
 
-  const pos    = useRef({ x: 0.6, y: 0 })
+  const pos    = useRef({ x: 2.2, y: 0 })   // start right of center
   const prevMx = useRef(0)
 
   useFrame(({ clock, camera, size }) => {
@@ -33,11 +55,27 @@ function CuteRobot({ progress, mouse }) {
     const mx = mouse.current.x
     const my = mouse.current.y
 
-    /* Smooth cursor follow */
-    const targetX = mx * 2.1 + 0.5
-    const targetY = my * 1.5 - p * 1.0
-    pos.current.x += (targetX - pos.current.x) * 0.055
-    pos.current.y += (targetY - pos.current.y) * 0.055
+    /* When speaking, slide to a fixed right-side position;
+       otherwise follow cursor but stay outside every frosted panel. */
+    let targetX, targetY
+    const minX = safeMinWorldX()
+
+    if (speechState.active) {
+      /* Speaking position: right side of screen, vertically centered */
+      const speakX = Math.max(minX, WORLD_HALF_W * 0.7)
+      targetX = speakX
+      targetY = my * 0.6 - p * 0.5     /* gentle vertical drift only */
+    } else {
+      /* Normal cursor follow, clamped outside panels */
+      targetX = mx * 2.0 + 0.55
+      targetY = my * 1.5 - p * 1.0
+      if (minX > -Infinity) targetX = Math.max(targetX, minX)
+    }
+
+    /* Slower lerp when speaking so the slide feels deliberate */
+    const LERP = speechState.active ? 0.04 : 0.055
+    pos.current.x += (targetX - pos.current.x) * LERP
+    pos.current.y += (targetY - pos.current.y) * LERP
 
     /* Velocity lean */
     const vx = mx - prevMx.current
