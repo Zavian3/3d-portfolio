@@ -63,7 +63,7 @@ function AnimatedStat({ value, label }) {
 }
 
 /* ── 3-D tilt card ───────────────────────────────── */
-function TiltCard({ href, children }) {
+function TiltCard({ href, children, 'data-speech': speech }) {
   const ref = useRef(null)
   const onMove = (e) => {
     const el = ref.current
@@ -84,6 +84,7 @@ function TiltCard({ href, children }) {
       href={href}
       target={href ? '_blank' : undefined}
       rel={href ? 'noreferrer' : undefined}
+      data-speech={speech}
       onPointerMove={onMove}
       onPointerLeave={onLeave}
     >
@@ -107,7 +108,10 @@ export default function Overlay() {
         <motion.p className="kicker" initial="hidden" animate="show" variants={fadeUp}>
           {profile.title} · {profile.location}
         </motion.p>
-        <motion.h1 initial="hidden" animate="show" variants={fadeUp}>
+        <motion.h1
+          initial="hidden" animate="show" variants={fadeUp}
+          data-speech="That's the man himself! Muhammad A. Rafay — Senior AI/ML Engineer, builder, and shipping machines that don't sleep 🤖✨"
+        >
           Muhammad
           <span>A. Rafay</span>
         </motion.h1>
@@ -115,16 +119,20 @@ export default function Overlay() {
           {profile.headline}
         </motion.p>
         <motion.div className="hero-row" initial="hidden" animate="show" variants={fadeUp}>
-          <a className="btn primary" href={`mailto:${profile.email}`}>
+          <a className="btn primary" href={`mailto:${profile.email}`}
+            data-speech="Oooh someone's making MOVES! 🔥 Drop that email — Rafay actually replies, I promise!">
             Start a conversation
           </a>
-          <a className="btn" href={profile.links.github} target="_blank" rel="noreferrer">
+          <a className="btn" href={profile.links.github} target="_blank" rel="noreferrer"
+            data-speech="Let's check the receipts! All the code is right here — the proof is in the commits 🔍">
             GitHub
           </a>
-          <a className="btn" href={profile.links.linkedin} target="_blank" rel="noreferrer">
+          <a className="btn" href={profile.links.linkedin} target="_blank" rel="noreferrer"
+            data-speech="Professional mode: ACTIVATED. Suit.exe loading... 💼 Connect and let's network!">
             LinkedIn
           </a>
-          <a className="btn" href={profile.links.netronflow} target="_blank" rel="noreferrer">
+          <a className="btn" href={profile.links.netronflow} target="_blank" rel="noreferrer"
+            data-speech="OUR baby startup!! Voice agents answering real calls RIGHT NOW as you read this! 🤖📞">
             NetronFlow ↗
           </a>
         </motion.div>
@@ -186,6 +194,9 @@ export default function Overlay() {
               className={`edu-card ${ed.current ? 'edu-current' : ''}`}
               variants={fadeUp}
               whileHover={{ y: -6, transition: { duration: 0.28 } }}
+              data-speech={ed.current
+                ? "Masters in AI from LUMS?! That's like getting into Harvard but in Pakistan — pure ELITE tier! This guy means serious business 🔥🇵🇰"
+                : "FAST-NUCES — THE CS school of Pakistan! Four years of hardcore grind that built the foundation for everything you see here 🎓💪"}
             >
               {ed.current && <span className="edu-badge">Current</span>}
               <div className="edu-years">{ed.years}</div>
@@ -203,36 +214,46 @@ export default function Overlay() {
         <motion.h2 variants={fadeUp}>Where the work happened.</motion.h2>
         <motion.div className="panel timeline-panel" variants={fadeUp}>
           <div className="timeline">
-            {profile.experience.map((job) => (
-              <motion.article
-                className="job"
-                key={`${job.company}-${job.period}`}
-                variants={fadeUp}
-                whileHover={{ x: 4, transition: { duration: 0.22 } }}
-              >
-                <div>
-                  <time>{job.period}</time>
-                  <span className="place">{job.place}</span>
-                </div>
-                <div>
-                  <h3>
-                    {job.href ? (
-                      <a href={job.href} target="_blank" rel="noreferrer">
-                        {job.company}
-                      </a>
-                    ) : (
-                      job.company
-                    )}
-                  </h3>
-                  <p className="role">{job.role}</p>
-                  <ul>
-                    {job.points.map((pt) => (
-                      <li key={pt}>{pt}</li>
-                    ))}
-                  </ul>
-                </div>
-              </motion.article>
-            ))}
+            {profile.experience.map((job) => {
+              const speeches = {
+                'NetronFlow': "This is the CURRENT MISSION! Building AI that actually picks up the phone — no scripts, no hold music, just smart agents doing real work 🚀🤖",
+                'Metaviz':    "Led an ENTIRE AI engineering team! Not just writing code — managing people, setting direction, owning delivery. Senior life hits different ⚡",
+                'Greyfibre':  "Turning a whole inbox into automation gold — from full-stack Django to AI-powered email intelligence. The pivot that leveled everything up 📧✨",
+                'AmentoTech': "Baby steps that became giant leaps! Every expert was once a beginner — this is where the LangChain and TensorFlow story started 🌱",
+                'MetaViz Pro': "Data science origin story! Scraping, wrangling, visualizing — turning messy data into decisions. The foundation of everything 📊",
+              }
+              return (
+                <motion.article
+                  className="job"
+                  key={`${job.company}-${job.period}`}
+                  variants={fadeUp}
+                  whileHover={{ x: 4, transition: { duration: 0.22 } }}
+                  data-speech={speeches[job.company] || `${job.company} — each role a new level unlocked! 🎮`}
+                >
+                  <div>
+                    <time>{job.period}</time>
+                    <span className="place">{job.place}</span>
+                  </div>
+                  <div>
+                    <h3>
+                      {job.href ? (
+                        <a href={job.href} target="_blank" rel="noreferrer">
+                          {job.company}
+                        </a>
+                      ) : (
+                        job.company
+                      )}
+                    </h3>
+                    <p className="role">{job.role}</p>
+                    <ul>
+                      {job.points.map((pt) => (
+                        <li key={pt}>{pt}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.article>
+              )
+            })}
           </div>
         </motion.div>
       </SectionReveal>
@@ -254,21 +275,31 @@ export default function Overlay() {
         <motion.p className="kicker" variants={fadeLeft}>05 — Systems</motion.p>
         <motion.h2 variants={fadeUp}>Things that shipped.</motion.h2>
         <motion.div className="project-grid" variants={stagger}>
-          {profile.projects.map((p) => (
-            <motion.div key={p.id} variants={fadeUp}>
-              <TiltCard href={p.href}>
-                <span className="tag">{p.tag}</span>
-                <h3>{p.title}</h3>
-                <p className="metric">{p.metric}</p>
-                <p>{p.description}</p>
-                <div className="stack">
-                  {p.stack.map((s) => (
-                    <span key={s}>{s}</span>
-                  ))}
-                </div>
-              </TiltCard>
-            </motion.div>
-          ))}
+          {profile.projects.map((proj) => {
+            const speeches = {
+              voice:  "200+ calls a day and ZERO coffee breaks! That's AI handling real customer conversations 24/7 — no sick days, no attitude 📞🤖",
+              rag:    "97% relevance score?! That's basically superhuman accuracy! 1000+ documents processed daily — this is the brain behind the operation 📚⚡",
+              netron: "The product we built from SCRATCH! From napkin idea to actual paying customers with real AI agents. This one hits different 🚀",
+              hr360:  "The FINAL YEAR PROJECT that started it all! Computer vision + NLP for HR — the capstone that proved everything was possible 🎓🏆",
+              rynova: "A whole control plane for AI appointment businesses! Fully automated scheduling, reminders, CRM sync — the future of booking 📅✨",
+              fight:  "Even UFC fighters can't hide from our ML models! 10K+ fight records analyzed — we predict the punches before they land 🥊🧠",
+            }
+            return (
+              <motion.div key={proj.id} variants={fadeUp}>
+                <TiltCard href={proj.href} data-speech={speeches[proj.id]}>
+                  <span className="tag">{proj.tag}</span>
+                  <h3>{proj.title}</h3>
+                  <p className="metric">{proj.metric}</p>
+                  <p>{proj.description}</p>
+                  <div className="stack">
+                    {proj.stack.map((s) => (
+                      <span key={s}>{s}</span>
+                    ))}
+                  </div>
+                </TiltCard>
+              </motion.div>
+            )
+          })}
         </motion.div>
       </SectionReveal>
 
@@ -309,7 +340,10 @@ export default function Overlay() {
       <SectionReveal className="contact" id="contact">
         <motion.p className="kicker" variants={fadeLeft}>07 — Handshake</motion.p>
         <div className="contact-block">
-          <motion.h2 variants={fadeUp}>
+          <motion.h2
+            variants={fadeUp}
+            data-speech="THIS IS MY FAVORITE PART! 🎉 Seriously, reach out! Rafay is genuinely one of the nicest humans to work with — I would know, I live on his website 🤖"
+          >
             Let&apos;s build something that holds up in production.
           </motion.h2>
           <motion.p className="lede" variants={fadeUp}>
