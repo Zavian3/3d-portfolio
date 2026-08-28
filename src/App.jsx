@@ -4,6 +4,7 @@ import Nav from './components/Nav.jsx'
 import Cursor from './components/Cursor.jsx'
 import Loader from './components/Loader.jsx'
 import SpeechBubble from './components/SpeechBubble.jsx'
+import { panelRects, speechState } from './robotState.js'
 
 const Scene = lazy(() => import('./components/Scene.jsx'))
 
@@ -37,23 +38,60 @@ export default function App() {
     return () => cancelAnimationFrame(frame)
   }, [])
 
-  /* Global data-speech hover → robotsay event */
+  /* Keep panelRects fresh so the robot avoids frosted panels */
   useEffect(() => {
-    let last = ''
-    const handler = (e) => {
-      const el = e.target.closest('[data-speech]')
-      const txt = el?.dataset?.speech
-      if (txt && txt !== last) {
-        last = txt
+    const update = () => {
+      panelRects.length = 0
+      document.querySelectorAll('.panel, .edu-card, .card').forEach((el) => {
+        const r = el.getBoundingClientRect()
+        if (r.width > 10 && r.height > 10)
+          panelRects.push({ left: r.left, right: r.right, top: r.top, bottom: r.bottom })
+      })
+    }
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    const id = setInterval(update, 300)   /* catch animation completions */
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+      clearInterval(id)
+    }
+  }, [])
+
+  /* Global data-speech hover → robotsay / robothide events */
+  useEffect(() => {
+    let current = ''
+
+    const onOver = (e) => {
+      const el  = e.target.closest('[data-speech]')
+      const txt = el?.dataset?.speech ?? ''
+      if (txt && txt !== current) {
+        current = txt
+        speechState.active = true
         window.dispatchEvent(new CustomEvent('robotsay', { detail: txt }))
+      } else if (!txt && current) {
+        current = ''
+        speechState.active = false
+        window.dispatchEvent(new CustomEvent('robothide'))
       }
     }
-    const reset = () => { last = '' }
-    document.addEventListener('mouseover', handler)
-    document.addEventListener('mouseout',  reset)
+
+    const onOut = (e) => {
+      const from = e.target.closest('[data-speech]')
+      const to   = e.relatedTarget?.closest?.('[data-speech]')
+      if (from && !to) {
+        current = ''
+        speechState.active = false
+        window.dispatchEvent(new CustomEvent('robothide'))
+      }
+    }
+
+    document.addEventListener('mouseover', onOver)
+    document.addEventListener('mouseout',  onOut)
     return () => {
-      document.removeEventListener('mouseover', handler)
-      document.removeEventListener('mouseout',  reset)
+      document.removeEventListener('mouseover', onOver)
+      document.removeEventListener('mouseout',  onOut)
     }
   }, [])
 

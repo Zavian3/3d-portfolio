@@ -110,7 +110,7 @@ export default function Overlay() {
         </motion.p>
         <motion.h1
           initial="hidden" animate="show" variants={fadeUp}
-          data-speech="That's the man himself! Muhammad A. Rafay — Senior AI/ML Engineer, builder, and shipping machines that don't sleep 🤖✨"
+          data-speech="That's the man himself! Muhammad A. Rafay — Senior AI/ML Engineer, builder, and shipping machines that don't sleep."
         >
           Muhammad
           <span>A. Rafay</span>
@@ -120,20 +120,20 @@ export default function Overlay() {
         </motion.p>
         <motion.div className="hero-row" initial="hidden" animate="show" variants={fadeUp}>
           <a className="btn primary" href={`mailto:${profile.email}`}
-            data-speech="Oooh someone's making MOVES! 🔥 Drop that email — Rafay actually replies, I promise!">
+            data-speech="Someone's making moves! Drop that email — Rafay actually replies, I promise.">
             Start a conversation
           </a>
           <a className="btn" href={profile.links.github} target="_blank" rel="noreferrer"
-            data-speech="Let's check the receipts! All the code is right here — the proof is in the commits 🔍">
+            data-speech="Let's check the receipts! All the code is right here — the proof is in the commits.">
             GitHub
           </a>
           <a className="btn" href={profile.links.linkedin} target="_blank" rel="noreferrer"
-            data-speech="Professional mode: ACTIVATED. Suit.exe loading... 💼 Connect and let's network!">
+            data-speech="Professional mode activated. Connect and let's talk — the best opportunities come through a conversation.">
             LinkedIn
           </a>
           <a className="btn" href={profile.links.netronflow} target="_blank" rel="noreferrer"
-            data-speech="OUR baby startup!! Voice agents answering real calls RIGHT NOW as you read this! 🤖📞">
-            NetronFlow ↗
+            data-speech="Our company! Voice agents answering real calls right now as you read this — production AI, not demos.">
+            NetronFlow
           </a>
         </motion.div>
         <motion.div
@@ -195,8 +195,8 @@ export default function Overlay() {
               variants={fadeUp}
               whileHover={{ y: -6, transition: { duration: 0.28 } }}
               data-speech={ed.current
-                ? "Masters in AI from LUMS?! That's like getting into Harvard but in Pakistan — pure ELITE tier! This guy means serious business 🔥🇵🇰"
-                : "FAST-NUCES — THE CS school of Pakistan! Four years of hardcore grind that built the foundation for everything you see here 🎓💪"}
+                ? "Masters in AI from LUMS — the most rigorous graduate program in Pakistan. Serious academics, serious research, serious credentials."
+                : "FAST-NUCES, the premier CS school in Pakistan. Four years of hardcore engineering that built the foundation for everything here."}
             >
               {ed.current && <span className="edu-badge">Current</span>}
               <div className="edu-years">{ed.years}</div>
@@ -216,11 +216,11 @@ export default function Overlay() {
           <div className="timeline">
             {profile.experience.map((job) => {
               const speeches = {
-                'NetronFlow': "This is the CURRENT MISSION! Building AI that actually picks up the phone — no scripts, no hold music, just smart agents doing real work 🚀🤖",
-                'Metaviz':    "Led an ENTIRE AI engineering team! Not just writing code — managing people, setting direction, owning delivery. Senior life hits different ⚡",
-                'Greyfibre':  "Turning a whole inbox into automation gold — from full-stack Django to AI-powered email intelligence. The pivot that leveled everything up 📧✨",
-                'AmentoTech': "Baby steps that became giant leaps! Every expert was once a beginner — this is where the LangChain and TensorFlow story started 🌱",
-                'MetaViz Pro': "Data science origin story! Scraping, wrangling, visualizing — turning messy data into decisions. The foundation of everything 📊",
+                'NetronFlow':  "Current mission: building AI that actually picks up the phone. No scripts, no hold music — smart agents doing real work around the clock.",
+                'Metaviz':     "Led an entire AI engineering team. Not just writing code — managing people, setting direction, owning delivery end-to-end.",
+                'Greyfibre':   "Turned a whole inbox into automation gold. Pivoted from full-stack Django into AI-powered email intelligence and never looked back.",
+                'AmentoTech':  "Where the LangChain and TensorFlow story started. Every expert was once a beginner — this is where the foundation was poured.",
+                'MetaViz Pro': "Data science origin story. Scraping, wrangling, visualizing — turning messy operational data into actual business decisions.",
               }
               return (
                 <motion.article
@@ -277,12 +277,12 @@ export default function Overlay() {
         <motion.div className="project-grid" variants={stagger}>
           {profile.projects.map((proj) => {
             const speeches = {
-              voice:  "200+ calls a day and ZERO coffee breaks! That's AI handling real customer conversations 24/7 — no sick days, no attitude 📞🤖",
-              rag:    "97% relevance score?! That's basically superhuman accuracy! 1000+ documents processed daily — this is the brain behind the operation 📚⚡",
-              netron: "The product we built from SCRATCH! From napkin idea to actual paying customers with real AI agents. This one hits different 🚀",
-              hr360:  "The FINAL YEAR PROJECT that started it all! Computer vision + NLP for HR — the capstone that proved everything was possible 🎓🏆",
-              rynova: "A whole control plane for AI appointment businesses! Fully automated scheduling, reminders, CRM sync — the future of booking 📅✨",
-              fight:  "Even UFC fighters can't hide from our ML models! 10K+ fight records analyzed — we predict the punches before they land 🥊🧠",
+              voice:  "200 plus calls a day, zero coffee breaks. AI handling real customer conversations around the clock — no sick days, no attitude.",
+              rag:    "97% relevance across 1,000 plus documents a day. That is not a demo number — that is a production system holding its own.",
+              netron: "Built from scratch. From napkin idea to real paying customers with live AI agents answering real calls. This one is personal.",
+              hr360:  "The final year capstone at FAST-NUCES. Computer vision plus NLP for HR automation — the project that proved everything was possible.",
+              rynova: "A full control plane for AI appointment businesses. Automated scheduling, reminders, CRM sync — the boring infrastructure that makes agents reliable.",
+              fight:  "10,000 plus fight records, ensemble models, RAG-powered scouting notes. Even UFC athletes cannot hide from a well-engineered feature pipeline.",
             }
             return (
               <motion.div key={proj.id} variants={fadeUp}>
@@ -342,7 +342,7 @@ export default function Overlay() {
         <div className="contact-block">
           <motion.h2
             variants={fadeUp}
-            data-speech="THIS IS MY FAVORITE PART! 🎉 Seriously, reach out! Rafay is genuinely one of the nicest humans to work with — I would know, I live on his website 🤖"
+            data-speech="This is the good part. Reach out — whether it is a hard AI problem, a senior role, or just a conversation about what is possible."
           >
             Let&apos;s build something that holds up in production.
           </motion.h2>
