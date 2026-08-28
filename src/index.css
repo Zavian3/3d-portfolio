@@ -1,14 +1,14 @@
 :root {
-  --bg: #050508;
-  --bg-soft: #0c0c12;
-  --ink: #f4f1ea;
-  --muted: rgba(244, 241, 234, 0.62);
-  --faint: rgba(244, 241, 234, 0.38);
-  --cyan: #5ce1e6;
-  --violet: #c084fc;
-  --gold: #f5c16c;
-  --line: rgba(244, 241, 234, 0.12);
-  --glass: rgba(8, 8, 14, 0.55);
+  --bg: #020817;
+  --bg-soft: #071224;
+  --ink: #f1f5f9;
+  --muted: rgba(241, 245, 249, 0.62);
+  --faint: rgba(241, 245, 249, 0.36);
+  --cyan: #38bdf8;
+  --violet: #818cf8;
+  --gold: #fbbf24;
+  --line: rgba(241, 245, 249, 0.1);
+  --glass: rgba(2, 8, 23, 0.6);
   --font-display: 'Syne', sans-serif;
   --font-body: 'Outfit', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
@@ -67,8 +67,8 @@ img {
   inset: 0;
   z-index: 0;
   background:
-    radial-gradient(1200px 700px at 70% 20%, rgba(92, 225, 230, 0.08), transparent 55%),
-    radial-gradient(900px 600px at 10% 80%, rgba(192, 132, 252, 0.08), transparent 50%),
+    radial-gradient(900px 700px at 78% 35%, rgba(56, 189, 248, 0.06), transparent 60%),
+    radial-gradient(700px 600px at 12% 75%, rgba(129, 140, 248, 0.05), transparent 55%),
     var(--bg);
 }
 
@@ -508,10 +508,15 @@ img {
   letter-spacing: 0.06em;
 }
 
+.timeline-panel {
+  max-width: 960px;
+  padding: 8px 32px 8px;
+}
+
 .timeline {
   display: grid;
   gap: 0;
-  max-width: 920px;
+  width: 100%;
 }
 
 .job {

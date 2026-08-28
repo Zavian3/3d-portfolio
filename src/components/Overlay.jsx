@@ -201,38 +201,40 @@ export default function Overlay() {
       <SectionReveal className="experience" id="work">
         <motion.p className="kicker" variants={fadeLeft}>03 — Trajectory</motion.p>
         <motion.h2 variants={fadeUp}>Where the work happened.</motion.h2>
-        <div className="timeline">
-          {profile.experience.map((job) => (
-            <motion.article
-              className="job"
-              key={`${job.company}-${job.period}`}
-              variants={fadeUp}
-              whileHover={{ x: 4, transition: { duration: 0.22 } }}
-            >
-              <div>
-                <time>{job.period}</time>
-                <span className="place">{job.place}</span>
-              </div>
-              <div>
-                <h3>
-                  {job.href ? (
-                    <a href={job.href} target="_blank" rel="noreferrer">
-                      {job.company}
-                    </a>
-                  ) : (
-                    job.company
-                  )}
-                </h3>
-                <p className="role">{job.role}</p>
-                <ul>
-                  {job.points.map((pt) => (
-                    <li key={pt}>{pt}</li>
-                  ))}
-                </ul>
-              </div>
-            </motion.article>
-          ))}
-        </div>
+        <motion.div className="panel timeline-panel" variants={fadeUp}>
+          <div className="timeline">
+            {profile.experience.map((job) => (
+              <motion.article
+                className="job"
+                key={`${job.company}-${job.period}`}
+                variants={fadeUp}
+                whileHover={{ x: 4, transition: { duration: 0.22 } }}
+              >
+                <div>
+                  <time>{job.period}</time>
+                  <span className="place">{job.place}</span>
+                </div>
+                <div>
+                  <h3>
+                    {job.href ? (
+                      <a href={job.href} target="_blank" rel="noreferrer">
+                        {job.company}
+                      </a>
+                    ) : (
+                      job.company
+                    )}
+                  </h3>
+                  <p className="role">{job.role}</p>
+                  <ul>
+                    {job.points.map((pt) => (
+                      <li key={pt}>{pt}</li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </motion.div>
       </SectionReveal>
 
       {/* ── LIVE SYSTEM ───────────────────────────── */}
